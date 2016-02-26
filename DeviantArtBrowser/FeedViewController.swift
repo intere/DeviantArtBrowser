@@ -33,7 +33,6 @@ class FeedViewController: UIViewController {
 
     func configureTableView() {
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 160
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -133,6 +132,13 @@ extension FeedViewController :  UITableViewDataSource, UITableViewDelegate {
             return basicCellAtIndexPath(indexPath)
         }
     }
+    
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if isLandscapeOrientation() {
+            return hasImageAtIndexPath(indexPath) ? 140 : 120
+        }
+        return hasImageAtIndexPath(indexPath) ? 235 : 155
+    }
 }
 
 // MARK: UITextFieldDelegate
@@ -223,6 +229,10 @@ extension FeedViewController {
         if let url = mediaThumbnail?.url {
             cell.customImageView.setImageWithURL(url)
         }
+    }
+    
+    func isLandscapeOrientation() -> Bool {
+        return UIInterfaceOrientationIsLandscape(UIApplication.sharedApplication().statusBarOrientation)
     }
 }
 
